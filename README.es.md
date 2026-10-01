@@ -122,9 +122,10 @@ struct MyApp: App {
 2. Comprime y firma la app:
 
    ```bash
-   ditto -c -k --keepParent MyApp.app MyApp.zip
+   ditto -c -k --sequesterRsrc --keepParent MyApp.app MyApp.zip
    swift run openupdater-cli sign MyApp.zip private.key
    # o: OPENUPDATER_PRIVATE_KEY=<clave> swift run openupdater-cli sign MyApp.zip
+   swift run openupdater-cli verify MyApp.zip "<clave pública>"   # comprobar antes de publicar
    ```
 
 3. Publica ambos archivos con un tag que coincida con la versión (el prefijo `v` es opcional):
