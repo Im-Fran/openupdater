@@ -1,0 +1,56 @@
+name: Bug report
+description: Something in OpenUpdater doesn't work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead. Include the error shown in the update window, if any.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. App at version 1.0.0, release v1.1.0 published with App.zip + App.zip.sig
+        2. Click "Check Now"
+        3. Click "Install and Relaunch"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: OpenUpdater version / commit
+      placeholder: main @ abc1234
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: macOS 15.3
+    validations:
+      required: true
+  - type: dropdown
+    id: install-choice
+    attributes:
+      label: Install option used
+      options:
+        - Install and Relaunch
+        - Install on Next Launch
+        - Not applicable (check failed)
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: The app is signed with a Developer ID (not ad-hoc) and is not sandboxed.
+        - label: The release contains both `<Name>.zip` and `<Name>.zip.sig`.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant Console.app output, if any.
+      render: text
