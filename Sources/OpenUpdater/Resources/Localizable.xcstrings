@@ -1,0 +1,276 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ %@ is available — you have %@.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$@ está disponible; tienes la %3$@."
+          }
+        }
+      }
+    },
+    "%@ %@ is the latest version.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$@ es la versión más reciente."
+          }
+        }
+      }
+    },
+    "A new version of %@ is available!": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡Hay una nueva versión de %@ disponible!"
+          }
+        }
+      }
+    },
+    "Automatically check for updates": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar actualizaciones automáticamente"
+          }
+        }
+      }
+    },
+    "Check Now": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar ahora"
+          }
+        }
+      }
+    },
+    "Check frequency": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frecuencia"
+          }
+        }
+      }
+    },
+    "Checking for updates…": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscando actualizaciones…"
+          }
+        }
+      }
+    },
+    "Could not reach GitHub. Check your internet connection.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo conectar con GitHub. Revisa tu conexión a internet."
+          }
+        }
+      }
+    },
+    "Daily": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diariamente"
+          }
+        }
+      }
+    },
+    "Downloading update…": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descargando actualización…"
+          }
+        }
+      }
+    },
+    "Include pre-release versions": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incluir versiones preliminares"
+          }
+        }
+      }
+    },
+    "Install and Relaunch": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instalar y reiniciar"
+          }
+        }
+      }
+    },
+    "Install on Next Launch": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instalar en el próximo inicio"
+          }
+        }
+      }
+    },
+    "Last checked: %@": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Última búsqueda: %@"
+          }
+        }
+      }
+    },
+    "Later": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Más tarde"
+          }
+        }
+      }
+    },
+    "Monthly": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mensualmente"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aceptar"
+          }
+        }
+      }
+    },
+    "Software Update": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualización de software"
+          }
+        }
+      }
+    },
+    "The app's folder is not writable. Move the app to Applications and try again.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede escribir en la carpeta de la app. Muévela a Aplicaciones e inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "The release does not contain a valid update.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La versión publicada no contiene una actualización válida."
+          }
+        }
+      }
+    },
+    "The update is not signed by the same developer.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La actualización no está firmada por el mismo desarrollador."
+          }
+        }
+      }
+    },
+    "The update signature is invalid.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La firma de la actualización no es válida."
+          }
+        }
+      }
+    },
+    "The update will be installed the next time you open %@.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La actualización se instalará la próxima vez que abras %@."
+          }
+        }
+      }
+    },
+    "Update failed": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo actualizar"
+          }
+        }
+      }
+    },
+    "Update ready": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualización lista"
+          }
+        }
+      }
+    },
+    "Weekly": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semanalmente"
+          }
+        }
+      }
+    },
+    "You're up to date!": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡Estás al día!"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
