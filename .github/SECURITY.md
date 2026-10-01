@@ -4,7 +4,7 @@ OpenUpdater downloads and installs code, so security reports are taken seriously
 
 ## Supported versions
 
-Only the latest commit on `main` (and the latest release, once releases exist) receives security fixes.
+Only the latest commit on `dev` (and the latest release, once releases exist) receives security fixes.
 
 ## Reporting a vulnerability
 

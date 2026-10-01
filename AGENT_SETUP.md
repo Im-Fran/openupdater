@@ -17,7 +17,7 @@ Xcode project: add package `https://github.com/Im-Fran/openupdater` (product `Op
 SwiftPM app: add to `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/Im-Fran/openupdater", branch: "main"),
+.package(url: "https://github.com/Im-Fran/openupdater", branch: "dev"),
 // target dependencies:
 .product(name: "OpenUpdater", package: "openupdater"),
 ```

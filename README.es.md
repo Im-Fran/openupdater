@@ -4,12 +4,12 @@
 
 **Actualizaciones automáticas para apps nativas de macOS, usando GitHub Releases.**
 
-[![CI](https://img.shields.io/github/actions/workflow/status/Im-Fran/openupdater/ci.yml?branch=main&label=CI)](https://github.com/Im-Fran/openupdater/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/Im-Fran/openupdater/ci.yml?branch=dev&label=CI)](https://github.com/Im-Fran/openupdater/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/Im-Fran/openupdater)](LICENSE)
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
 ![Platform](https://img.shields.io/badge/macOS-14%2B-000000?logo=apple&logoColor=white)
 [![SwiftPM](https://img.shields.io/badge/SwiftPM-compatible-F05138)](https://swift.org/package-manager/)
-[![Last commit](https://img.shields.io/github/last-commit/Im-Fran/openupdater)](https://github.com/Im-Fran/openupdater/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/Im-Fran/openupdater)](https://github.com/Im-Fran/openupdater/commits/dev)
 
 [English](README.md) · **Español**
 
@@ -71,7 +71,7 @@ En Xcode: **File › Add Package Dependencies…** → `https://github.com/Im-Fr
 O en `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/Im-Fran/openupdater", branch: "main"),
+.package(url: "https://github.com/Im-Fran/openupdater", branch: "dev"),
 // dependencias del target:
 .product(name: "OpenUpdater", package: "openupdater"),
 ```

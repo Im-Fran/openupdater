@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/Im-Fran/openupdater/security/advisories/new
     about: Please report vulnerabilities privately, not as public issues.
   - name: Setup guide for AI agents
-    url: https://github.com/Im-Fran/openupdater/blob/main/AGENT_SETUP.md
+    url: https://github.com/Im-Fran/openupdater/blob/dev/AGENT_SETUP.md
     about: Step-by-step integration instructions.
