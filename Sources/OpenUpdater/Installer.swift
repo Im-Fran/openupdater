@@ -23,6 +23,13 @@ enum Installer {
         return SecStaticCodeCheckValidity(candidate, flags, requirement) == errSecSuccess
     }
 
+    /// The staged app must be newer than the running one. The Ed25519 signature covers the zip, not the tag,
+    /// so without this a previously signed old release re-published under a higher tag would downgrade users.
+    static func isUpgrade(_ app: URL, from currentVersion: String) -> Bool {
+        guard let version = Bundle(url: app)?.infoDictionary?["CFBundleShortVersionString"] as? String else { return false }
+        return isNewer(version, than: currentVersion)
+    }
+
     static var stagingRoot: URL {
         URL.applicationSupportDirectory
             .appending(path: Bundle.main.bundleIdentifier ?? "OpenUpdater")
@@ -30,7 +37,7 @@ enum Installer {
     }
 
     /// Downloads, verifies and extracts the release. Returns the staged `.app`.
-    static func prepare(_ release: Release, publicKey: String, progress: @escaping @Sendable (Double) -> Void) async throws -> URL {
+    static func prepare(_ release: Release, publicKey: String, currentVersion: String, progress: @escaping @Sendable (Double) -> Void) async throws -> URL {
         guard let zip = release.zip, let sig = release.signature else { throw UpdateError.missingAsset }
         let fm = FileManager.default
         let dir = stagingRoot.appending(path: release.version)
@@ -53,6 +60,7 @@ enum Installer {
         guard let app = try fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)
             .first(where: { $0.pathExtension == "app" })
         else { throw UpdateError.missingAsset }
+        guard isUpgrade(app, from: currentVersion) else { throw UpdateError.notNewer }
         guard matchesCurrentSignature(app) else { throw UpdateError.badCodeSignature }
         try? run("/usr/bin/xattr", "-dr", "com.apple.quarantine", app.path)
         return app

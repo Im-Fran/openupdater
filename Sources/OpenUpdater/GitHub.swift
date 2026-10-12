@@ -59,7 +59,7 @@ func fetchReleases(repo: String) async throws -> [Release] {
 }
 
 enum UpdateError: LocalizedError {
-    case network, missingAsset, badSignature, badCodeSignature, notWritable
+    case network, missingAsset, badSignature, badCodeSignature, notNewer, notWritable
 
     var errorDescription: String? {
         switch self {
@@ -67,6 +67,7 @@ enum UpdateError: LocalizedError {
         case .missingAsset: String(localized: "The release does not contain a valid update.", bundle: .module)
         case .badSignature: String(localized: "The update signature is invalid.", bundle: .module)
         case .badCodeSignature: String(localized: "The update is not signed by the same developer.", bundle: .module)
+        case .notNewer: String(localized: "The update is not newer than the installed version.", bundle: .module)
         case .notWritable: String(localized: "The app's folder is not writable. Move the app to Applications and try again.", bundle: .module)
         }
     }
