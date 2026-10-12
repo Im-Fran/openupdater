@@ -75,7 +75,7 @@ OpenUpdater reads the GitHub release and expects exactly this. If anything is of
 
 | Item | Requirement |
 |------|-------------|
-| Tag | The app version with an optional `v` prefix: `v1.2.0` or `1.2.0`. It **must equal** the app's `CFBundleShortVersionString`. A tag that is higher than the bundle version causes an update loop. |
+| Tag | The app version with an optional `v` prefix: `v1.2.0` or `1.2.0`. It **must equal** the app's `CFBundleShortVersionString`. A tag that is higher than the bundle version causes an update loop. Build metadata is ignored: `v1.2.0+7` counts as `1.2.0`. |
 | Release state | Published, **not a draft**. Mark it **pre-release** for betas (`v1.3.0-beta.1`); only users with "Include pre-release versions" on will get it. |
 | `<Name>.zip` | **Exactly one** `.zip` asset per release (the updater takes the first `.zip`). It must contain the **`.app` bundle directly at the root**: `MyApp.zip → MyApp.app/…`. No wrapping folder, no `.dmg`/`.pkg` inside, no extra `.app`. |
 | `<Name>.zip.sig` | Ed25519 signature of **that exact zip**, named the zip's name plus `.sig` (`MyApp.zip.sig`). It is a base64 text file produced by `openupdater-cli sign`. |

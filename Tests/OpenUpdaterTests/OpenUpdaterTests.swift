@@ -9,6 +9,9 @@ import Testing
     #expect(isNewer("1.2.0", than: "1.2.0-beta.3"))
     #expect(isNewer("1.2.0-beta.10", than: "1.2.0-beta.9"))
     #expect(!isNewer("1.0.0", than: "1.0.1"))
+    #expect(isNewer("1.4.1+2", than: "1.4.0"))
+    #expect(!isNewer("1.4.0+7", than: "1.4.0"))
+    #expect(isNewer("1.4.0", than: "1.4.0-beta.1+3"))
 }
 
 @Test func frequencyDue() {
