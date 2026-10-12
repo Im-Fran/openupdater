@@ -71,7 +71,7 @@ In Xcode: **File › Add Package Dependencies…** → `https://github.com/Im-Fr
 Or in `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/Im-Fran/openupdater", branch: "dev"),
+.package(url: "https://github.com/Im-Fran/openupdater", from: "0.1.0"),
 // target dependencies:
 .product(name: "OpenUpdater", package: "openupdater"),
 ```
