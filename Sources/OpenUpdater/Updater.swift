@@ -59,6 +59,9 @@ public final class Updater {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
     }
 
+    /// `currentVersion` plus the build number, used for comparisons.
+    var installedVersion: String { fullVersion(of: .main) ?? currentVersion }
+
     var appName: String {
         let info = Bundle.main.infoDictionary
         return info?["CFBundleDisplayName"] as? String ?? info?["CFBundleName"] as? String ?? ProcessInfo.processInfo.processName
@@ -85,7 +88,7 @@ public final class Updater {
         state = .downloading(0)
         Task {
             do {
-                let app = try await Installer.prepare(release, publicKey: publicKey, currentVersion: currentVersion) { p in
+                let app = try await Installer.prepare(release, publicKey: publicKey, currentVersion: installedVersion) { p in
                     Task { @MainActor in
                         if case .downloading = self.state { self.state = .downloading(p) }
                     }
@@ -131,7 +134,7 @@ public final class Updater {
             lastCheck = .now
             defaults.set(lastCheck, forKey: Key.lastCheck)
             if let release = latestRelease(in: releases, includePrereleases: includePrereleases),
-               isNewer(release.version, than: currentVersion) {
+               isNewer(release.version, than: installedVersion) {
                 // Already staged for next launch: don't nag on background checks.
                 if !userInitiated, defaults.string(forKey: Key.pending) != nil { state = .idle; return }
                 state = .available(release)
@@ -149,8 +152,8 @@ public final class Updater {
         defaults.removeObject(forKey: Key.pending)
         let app = URL(fileURLWithPath: path)
         // Skip if the user already updated manually to this version or newer.
-        guard let version = Bundle(url: app)?.infoDictionary?["CFBundleShortVersionString"] as? String,
-              isNewer(version, than: currentVersion)
+        guard let version = fullVersion(of: Bundle(url: app)),
+              isNewer(version, than: installedVersion)
         else {
             try? FileManager.default.removeItem(at: app.deletingLastPathComponent())
             return false

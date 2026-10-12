@@ -12,6 +12,11 @@ import Testing
     #expect(isNewer("1.4.1+2", than: "1.4.0"))
     #expect(!isNewer("1.4.0+7", than: "1.4.0"))
     #expect(isNewer("1.4.0", than: "1.4.0-beta.1+3"))
+    #expect(isNewer("1.4.1+6", than: "1.4.1+3"))
+    #expect(isNewer("1.4.1+10", than: "1.4.1+9"))
+    #expect(!isNewer("1.4.1+3", than: "1.4.1+6"))
+    #expect(!isNewer("1.4.0+9", than: "1.4.1+1"))
+    #expect(isNewer("1.4.0-beta.1+2", than: "1.4.0-beta.1+1"))
 }
 
 @Test func frequencyDue() {
@@ -53,15 +58,17 @@ import Testing
 }
 
 @Test func rejectsDowngrades() throws {
-    func app(_ version: String) throws -> URL {
+    func app(_ version: String, build: String? = nil) throws -> URL {
         let app = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString).appending(path: "My.app")
         let contents = app.appending(path: "Contents")
         try FileManager.default.createDirectory(at: contents, withIntermediateDirectories: true)
-        let plist = try PropertyListSerialization.data(fromPropertyList: ["CFBundleShortVersionString": version], format: .xml, options: 0)
+        let plist = try PropertyListSerialization.data(fromPropertyList: ["CFBundleShortVersionString": version, "CFBundleVersion": build].compactMapValues { $0 }, format: .xml, options: 0)
         try plist.write(to: contents.appending(path: "Info.plist"))
         return app
     }
     #expect(Installer.isUpgrade(try app("1.3.0"), from: "1.2.0"))
     #expect(!Installer.isUpgrade(try app("1.1.0"), from: "1.2.0"))
     #expect(!Installer.isUpgrade(try app("1.2.0"), from: "1.2.0"))
+    #expect(Installer.isUpgrade(try app("1.2.0", build: "6"), from: "1.2.0+3"))
+    #expect(!Installer.isUpgrade(try app("1.2.0", build: "3"), from: "1.2.0+6"))
 }

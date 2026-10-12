@@ -26,7 +26,7 @@ enum Installer {
     /// The staged app must be newer than the running one. The Ed25519 signature covers the zip, not the tag,
     /// so without this a previously signed old release re-published under a higher tag would downgrade users.
     static func isUpgrade(_ app: URL, from currentVersion: String) -> Bool {
-        guard let version = Bundle(url: app)?.infoDictionary?["CFBundleShortVersionString"] as? String else { return false }
+        guard let version = fullVersion(of: Bundle(url: app)) else { return false }
         return isNewer(version, than: currentVersion)
     }
 

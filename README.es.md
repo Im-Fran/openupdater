@@ -128,7 +128,7 @@ struct MyApp: App {
    swift run openupdater-cli verify MyApp.zip "<clave pública>"   # comprobar antes de publicar
    ```
 
-3. Publica ambos archivos con un tag que coincida con la versión (el prefijo `v` es opcional):
+3. Publica ambos archivos con un tag que coincida con la versión (el prefijo `v` es opcional). Para publicar un rebuild de la misma versión, agrega el número de build: `v1.2.0+7` debe coincidir con `CFBundleVersion` `7` y se ofrece sobre `+6`:
 
    ```bash
    gh release create v1.2.0 MyApp.zip MyApp.zip.sig --notes "Novedades…"

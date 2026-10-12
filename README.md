@@ -128,7 +128,7 @@ struct MyApp: App {
    swift run openupdater-cli verify MyApp.zip "<public key>"   # check before publishing
    ```
 
-3. Publish both files under a tag that matches the version (`v` prefix optional):
+3. Publish both files under a tag that matches the version (`v` prefix optional). To ship a rebuild of the same version, add the build number: `v1.2.0+7` must match `CFBundleVersion` `7` and is offered over `+6`:
 
    ```bash
    gh release create v1.2.0 MyApp.zip MyApp.zip.sig --notes "What's new…"

@@ -20,25 +20,35 @@ public struct Release: Decodable, Sendable, Equatable {
 }
 
 /// Compares `1.10.0` > `1.9.2`, `1.2` == `1.2.0`, and `1.2.0` > `1.2.0-beta.3` > `1.2.0-beta.2`.
-/// Build metadata is ignored, as SemVer says: `1.2.1+7` is `1.2.1`.
+/// Build numbers break ties only when both sides have one: `1.4.1+6` > `1.4.1+3`, but `1.4.1+7` == `1.4.1`.
 func isNewer(_ a: String, than b: String) -> Bool {
-    func split(_ v: String) -> ([Int], String?) {
+    func split(_ v: String) -> ([Int], String?, String?) {
         var v = v.hasPrefix("v") ? v.dropFirst() : Substring(v)
-        if let plus = v.firstIndex(of: "+") { v = v[..<plus] }
+        var build: String?
+        if let plus = v.firstIndex(of: "+") { build = String(v[v.index(after: plus)...]); v = v[..<plus] }
         let parts = v.split(separator: "-", maxSplits: 1)
         let core = parts.first.map { $0.split(separator: ".").map { Int($0) ?? 0 } } ?? []
-        return (core, parts.count > 1 ? String(parts[1]) : nil)
+        return (core, parts.count > 1 ? String(parts[1]) : nil, build)
     }
-    let (ac, ap) = split(a), (bc, bp) = split(b)
+    let (ac, ap, ab) = split(a), (bc, bp, bb) = split(b)
     for i in 0..<max(ac.count, bc.count) {
         let l = i < ac.count ? ac[i] : 0, r = i < bc.count ? bc[i] : 0
         if l != r { return l > r }
     }
     switch (ap, bp) {
     case (nil, .some): return true
-    case let (x?, y?): return x.compare(y, options: .numeric) == .orderedDescending
-    default: return false
+    case (.some, nil): return false
+    case let (x?, y?) where x != y: return x.compare(y, options: .numeric) == .orderedDescending
+    default: break
     }
+    guard let ab, let bb else { return false }
+    return ab.compare(bb, options: .numeric) == .orderedDescending
+}
+
+/// `CFBundleShortVersionString+CFBundleVersion`, so tags with a build number (`1.4.1+6`) compare against it.
+func fullVersion(of bundle: Bundle?) -> String? {
+    guard let info = bundle?.infoDictionary, let short = info["CFBundleShortVersionString"] as? String else { return nil }
+    return (info["CFBundleVersion"] as? String).map { "\(short)+\($0)" } ?? short
 }
 
 func latestRelease(in releases: [Release], includePrereleases: Bool) -> Release? {
