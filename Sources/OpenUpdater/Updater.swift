@@ -85,7 +85,7 @@ public final class Updater {
         state = .downloading(0)
         Task {
             do {
-                let app = try await Installer.prepare(release, publicKey: publicKey) { p in
+                let app = try await Installer.prepare(release, publicKey: publicKey, currentVersion: currentVersion) { p in
                     Task { @MainActor in
                         if case .downloading = self.state { self.state = .downloading(p) }
                     }

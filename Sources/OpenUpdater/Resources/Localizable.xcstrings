@@ -201,6 +201,16 @@
         }
       }
     },
+    "The update is not newer than the installed version.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La actualización no es más nueva que la versión instalada."
+          }
+        }
+      }
+    },
     "The update is not signed by the same developer.": {
       "localizations": {
         "es-419": {

@@ -51,3 +51,17 @@ import Testing
     #expect(stable.signature?.name == "App.zip.sig")
     #expect(latestRelease(in: releases, includePrereleases: true)?.version == "2.0.0-beta.1")
 }
+
+@Test func rejectsDowngrades() throws {
+    func app(_ version: String) throws -> URL {
+        let app = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString).appending(path: "My.app")
+        let contents = app.appending(path: "Contents")
+        try FileManager.default.createDirectory(at: contents, withIntermediateDirectories: true)
+        let plist = try PropertyListSerialization.data(fromPropertyList: ["CFBundleShortVersionString": version], format: .xml, options: 0)
+        try plist.write(to: contents.appending(path: "Info.plist"))
+        return app
+    }
+    #expect(Installer.isUpgrade(try app("1.3.0"), from: "1.2.0"))
+    #expect(!Installer.isUpgrade(try app("1.1.0"), from: "1.2.0"))
+    #expect(!Installer.isUpgrade(try app("1.2.0"), from: "1.2.0"))
+}
