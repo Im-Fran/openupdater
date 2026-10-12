@@ -9,7 +9,7 @@ verify each one. Ask the user for anything marked **ASK**.
 - The app is **not sandboxed** (`com.apple.security.app-sandbox` absent or `false` in the `.entitlements`). If sandboxed, stop and tell the user OpenUpdater doesn't support it.
 - The app's source lives in a **public** GitHub repo, or releases are published to one. **ASK** for `owner/name`.
 - Release builds are signed with a **Developer ID** (stable Team ID). Ad-hoc builds can't validate updates.
-- `CFBundleShortVersionString` follows numeric versions (`1.2.0`, optional `-beta.N` suffix).
+- `CFBundleShortVersionString` follows numeric versions (`1.2.0`, optional `-beta.N` suffix). `CFBundleVersion` is a number if build numbers go in tags (see 4.1).
 
 ## 1. Add the dependency
 
@@ -75,7 +75,7 @@ OpenUpdater reads the GitHub release and expects exactly this. If anything is of
 
 | Item | Requirement |
 |------|-------------|
-| Tag | The app version with an optional `v` prefix: `v1.2.0` or `1.2.0`. It **must equal** the app's `CFBundleShortVersionString`. A tag that is higher than the bundle version causes an update loop. Build metadata is ignored: `v1.2.0+7` counts as `1.2.0`. |
+| Tag | The app version with an optional `v` prefix: `v1.2.0` or `1.2.0`. It **must equal** the app's `CFBundleShortVersionString`. A tag that is higher than the bundle version causes an update loop. Optional build number after `+` (`v1.2.0+7`): it **must equal** `CFBundleVersion`, and it ships a rebuild of the same version, since `1.2.0+7` is offered over `1.2.0+6`. A build number is compared only when the installed app has a `CFBundleVersion` too. |
 | Release state | Published, **not a draft**. Mark it **pre-release** for betas (`v1.3.0-beta.1`); only users with "Include pre-release versions" on will get it. |
 | `<Name>.zip` | **Exactly one** `.zip` asset per release (the updater takes the first `.zip`). It must contain the **`.app` bundle directly at the root**: `MyApp.zip → MyApp.app/…`. No wrapping folder, no `.dmg`/`.pkg` inside, no extra `.app`. |
 | `<Name>.zip.sig` | Ed25519 signature of **that exact zip**, named the zip's name plus `.sig` (`MyApp.zip.sig`). It is a base64 text file produced by `openupdater-cli sign`. |
@@ -251,8 +251,14 @@ jobs:
 
       - name: Check version matches tag
         run: |
-          PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "build/export/$APP.app/Contents/Info.plist")
-          test "$PLIST_VERSION" = "${GITHUB_REF_NAME#v}" || { echo "Tag $GITHUB_REF_NAME != app version $PLIST_VERSION"; exit 1; }
+          PLIST="build/export/$APP.app/Contents/Info.plist"
+          PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$PLIST")
+          TAG="${GITHUB_REF_NAME#v}"
+          test "$PLIST_VERSION" = "${TAG%%+*}" || { echo "Tag $GITHUB_REF_NAME != app version $PLIST_VERSION"; exit 1; }
+          if [[ "$TAG" == *+* ]]; then
+            PLIST_BUILD=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST")
+            test "$PLIST_BUILD" = "${TAG#*+}" || { echo "Tag $GITHUB_REF_NAME != app build $PLIST_BUILD"; exit 1; }
+          fi
 
       - name: Notarize and staple
         env:
@@ -303,5 +309,5 @@ one. To release: bump `CFBundleShortVersionString` (and `CFBundleVersion`), comm
 - Don't ship `.dmg` or `.pkg` assets, or more than one `.zip` per release. Use exactly one `.zip` with the `.app` at its root.
 - Don't modify the zip after signing it with `openupdater-cli sign`, and don't sign the pre-notarization zip.
 - Don't change the bundle ID or the Team ID between releases.
-- Don't publish a tag that differs from `CFBundleShortVersionString`.
+- Don't publish a tag that differs from `CFBundleShortVersionString` (or, with `+N`, from `CFBundleVersion`).
 - Don't change the `OpenUpdater.*` keys in `UserDefaults`; they hold the user's preferences.
